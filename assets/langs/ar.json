@@ -1,0 +1,59 @@
+{
+    "enter_email": "أدخل بريدك الإلكتروني",
+    "enter_password": "أدخل كلمة المرور",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "create_new_account": "إنشاء حساب جديد",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "remember_me": "تذكرني",
+    "terms_and_conditions": "الشروط والأحكام",
+    "privacy_policy": "سياسة الخصوصية",
+    "full_name": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirm_password": "تأكيد كلمة المرور",
+    "have_account": "هل لديك حساب؟",
+    "agree_on": "أوافق على",
+    "select_user_type": "اختر نوع المستخدم",
+    "or_continue_with": "أو من خلال",
+    "google": "جوجل",
+    "facebook": "فيسبوك",
+    "apple": "أبل",
+    "skip": "تخطي",
+    "welcome_at": "مرحبًا بك في",
+    "slogan1": "لأن صديقك الصغير يستحق أفضل رعاية، إحنا هنا نهتم بيه في كل لحظة.",
+    "slogan2": "مواعيد التطعيم والعلاج… ولا أسهل!",
+    "sub_slogan2": "تابع الملف الصحي لحيوانك، وخد تنبيهات تلقائية عشان ما تنسى أي ميعاد.",
+    "start_now": "ابدأ الآن",
+    "next": "التالي",
+    "app_name": "Pet Sense",
+    "enter_code_message": "أدخل الرمز الذي أرسلناه إلى رقمك 012345*****",
+    "code_not_sent": "لم يتم إرسال الرمز؟",
+    "resend": "إعادة إرسال",
+    "verification_code_resent": "تم إرسال رمز الوصول إلى الحساب، برجاء فتح بريدك الإلكتروني والتحقق",
+    "verify_identity": "تحقق من هويتك",
+    "back_to_login": "العودة إلى تسجيل الدخول",
+    "shop_book_consult": "تسوّق، احجز، واستشير الدكتور",
+    "reset_password_instruction": "ادخل البريد الإلكتروني أو رقم الهاتف المرتبط بحسابك، وهنبعتلك رمز إعادة تعيين كلمة المرور.",
+    "enter_your_email": "أدخل بريدك الإلكتروني",
+    "send_code": "إرسال الرمز",
+    "resetPasswordTitle":"إعادة تعيين كلمة المرور",
+    "resetPasswordDescription":"اكتب كلمة مرور جديدة، وتأكد إنها قوية وسهلة عليك.",
+    "finish": "انهاء",
+    "search_doctor_store_service": "ابحث عن دكتور، متجر أو خدمة",
+    "suggestion": "اقتراحات",
+    "discount_offer": "خصم 20% على مستلزمات الحيوانات من متجرنا",
+    "nearest_doctor": "أقرب دكتور متاح الآن على بعد 2 كم",
+    "nearest_doctors": "أقرب الأطباء"
+
+
+
+
+
+
+}
+
+
+
+
+
