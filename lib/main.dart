@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pet_sense/app/view/app/modules/screens/home/home_screen.dart';
 import 'package:pet_sense/app/view/app/modules/screens/pet%20owner/pet_owner_home.dart';
 import 'package:pet_sense/core/utils/app_translation.dart';
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       locale: Locale('en', 'US'), // اللغة الافتراضية
       fallbackLocale: const Locale('ar', 'EG'), // لو حصلت مشكلة في الترجمة
       // supportedLocales: const [Locale('en', 'US'), Locale('ar', 'EG')],
-      home: PetOwnerHome(),
+      home: HomeScreen(),
     );
   }
 }

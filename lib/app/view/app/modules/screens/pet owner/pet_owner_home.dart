@@ -4,19 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_sense/app/view/app/modules/screens/pet%20owner/doctors_screen.dart';
+
+import 'pet_widgets/custom_section_label.dart';
+import 'pet_widgets/doctors_general_widget.dart';
+import 'pet_widgets/quick_advice_widget.dart';
+import 'pet_widgets/stores_widget.dart';
+import 'pet_widgets/suggestions_widget.dart';
+
 
 class PetOwnerHome extends StatelessWidget {
   PetOwnerHome({super.key});
   List<Map<String, dynamic>> services = [
     {'name': 'Veterinary', 'icon': 'assets/Vector.svg'},
-    {'name': 'Pet Store', 'icon': 'assets/Baby worker.svg'},
+    {'name': 'Pet Store', 'icon': 'assets/cart.svg'},
     {'name': 'Sitters', 'icon': 'assets/Baby worker.svg'},
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+    return  SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -127,35 +133,46 @@ class PetOwnerHome extends StatelessWidget {
                 ),
                 itemCount: 3, // Add limit
                 itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 1,
-                    color: Colors.white,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            services[index]['icon'],
-                            height: 40, // optional size
-                            width: 40, // optional size
-                            colorFilter: const ColorFilter.mode(
-                              Color(0xff01727A),
-                              BlendMode.srcIn,
+                  return GestureDetector(
+                      onTap: () {
+                    if (services[index]['name'] == 'Veterinary') {
+                      Get.to(() => DoctorsScreen());
+                    } else if (services[index]['name'] == 'Pet Store') {
+                      Get.to(() => null);
+                    } else if (services[index]['name'] == 'Sitters') {
+                      Get.to(() => null);
+                    }
+                  },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 1,
+                      color: Colors.white,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              services[index]['icon'],
+                              height: 25, // optional size
+                              width: 25, // optional size
+                              colorFilter: const ColorFilter.mode(
+                                Color(0xff01727A),
+                                BlendMode.srcIn,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            services[index]['name'],
-                            style: TextStyle(
-                              color: Color(0xff01727A),
-                              fontSize: 16,
-                              fontFamily: GoogleFonts.cairo().fontFamily,
+                            const SizedBox(height: 8),
+                            Text(
+                              services[index]['name'],
+                              style: TextStyle(
+                                color: Color(0xff01727A),
+                                fontSize: 16,
+                                fontFamily: GoogleFonts.cairo().fontFamily,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -170,67 +187,17 @@ class PetOwnerHome extends StatelessWidget {
             SuggestionsWidget(label: 'nearest_doctor'.tr),
             const SizedBox(height: 20),
             CustomSectionLabel(label: 'nearest_doctors'.tr),
+            DoctorsGeneralWidget(),
+            const SizedBox(height: 10),
+            CustomSectionLabel(label: 'Nearest Stores'.tr),
+            const SizedBox(height: 5),
+            StoresWidget(),
+            const SizedBox(height: 20),
+            CustomSectionLabel(label: 'Quick advice'.tr),
+            QuickAdviceWidget(),
+            const SizedBox(height: 20),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CustomSectionLabel extends StatelessWidget {
-  const CustomSectionLabel({super.key, required this.label});
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(
-        label.tr,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          fontFamily: GoogleFonts.cairo().fontFamily,
-        ),
-      ),
-    );
-  }
-}
-
-class SuggestionsWidget extends StatelessWidget {
-  SuggestionsWidget({super.key, required this.label});
-  final String label;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        alignment: Alignment.centerLeft,
-        width: double.infinity,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Text(
-          label.tr,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 18,
-            fontFamily: GoogleFonts.cairo().fontFamily,
-          ),
-          // textAlign: TextAlign.start,
-        ),
-      ),
     );
   }
 }
