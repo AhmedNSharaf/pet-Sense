@@ -7,8 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
   // Replace with your actual backend URL
   // For real device testing, use your local IP address or deployed URL
-  static const String baseUrl = 'http://localhost:3000/api/auth'; // Change this IP to your computer's local IP
-  
+  static const String baseUrl = 'http://192.168.1.3:3000/api/auth';
+
   // Headers for API requests
   static const Map<String, String> headers = {
     'Content-Type': 'application/json',
@@ -46,16 +46,19 @@ class AuthService {
         headers: headers,
         body: json.encode(requestBody),
       );
+      print('bodddddddddddddddddddddddy ${response.body}');
 
       final Map<String, dynamic> data = json.decode(response.body);
 
-      if (response.statusCode == 201) { // Updated status code
+      if (response.statusCode == 200|| response.statusCode == 201) {
+        // Updated status code
         return ApiResponse(
           success: true,
           message: data['message'],
           data: {
             'userType': data['userType'],
-            'verificationCode': data['verificationCode'], // For development only
+            'verificationCode':
+                data['verificationCode'], // For development only
             'email': email,
           },
         );
@@ -94,17 +97,14 @@ class AuthService {
       if (response.statusCode == 200) {
         // Store token in SharedPreferences
         await _storeToken(data['token']);
-        
+
         // Create User object with enhanced data
         final user = User.fromJson(data['user']);
-        
+
         return ApiResponse(
           success: true,
           message: 'Login successful',
-          data: {
-            'token': data['token'],
-            'user': user,
-          },
+          data: {'token': data['token'], 'user': user},
         );
       } else {
         return ApiResponse(
@@ -130,17 +130,14 @@ class AuthService {
       final response = await http.post(
         Uri.parse('$baseUrl/verify'),
         headers: headers,
-        body: json.encode({
-          'email': email.toLowerCase().trim(),
-          'code': code,
-        }),
+        body: json.encode({'email': email.toLowerCase().trim(), 'code': code}),
       );
 
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
         final user = User.fromJson(data['user']);
-        
+
         return ApiResponse(
           success: true,
           message: data['message'],
@@ -251,11 +248,15 @@ class AuthService {
   // Helper method to create default working hours for doctors
   static List<WorkingHours> getDefaultWorkingHours() {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    return days.map((day) => WorkingHours(
-      day: day,
-      startTime: '09:00',
-      endTime: '17:00',
-      isAvailable: true,
-    )).toList();
+    return days
+        .map(
+          (day) => WorkingHours(
+            day: day,
+            startTime: '09:00',
+            endTime: '17:00',
+            isAvailable: true,
+          ),
+        )
+        .toList();
   }
 }

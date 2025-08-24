@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_sense/app/model/user_model.dart';
+import 'package:pet_sense/app/view/app/modules/screens/home/home_screen.dart';
 import 'package:pet_sense/core/services/auth_services.dart';
 
 enum UserType {
@@ -144,7 +145,7 @@ class RegisterController extends GetxController {
     if (value == null || value.isEmpty) {
       return 'email_required'.tr;
     }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4})$');
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
       return 'invalid_email'.tr;
     }
@@ -208,7 +209,7 @@ class RegisterController extends GetxController {
 
     try {
       isLoading.value = true;
-
+      print('first');
       // Create user profile
       final profile = UserProfile(
         firstName: firstNameController.text.trim().isNotEmpty
@@ -253,8 +254,9 @@ class RegisterController extends GetxController {
         profile: profile,
         doctorInfo: doctorInfo,
       );
-
+      print(response.statusCode);
       if (response.success) {
+        print('here');
         _showSuccessSnackbar(response.message);
         Get.snackbar(
           'Account Created',
@@ -262,13 +264,7 @@ class RegisterController extends GetxController {
         );
 
         // Navigate to verification screen
-        Get.toNamed(
-          '/verify-email',
-          arguments: {
-            'email': emailController.text.trim(),
-            'userType': selectedUserType.value!.value,
-          },
-        );
+        Get.to(HomeScreen());
 
         // Clear form
         _clearForm();
@@ -278,6 +274,7 @@ class RegisterController extends GetxController {
     } catch (e) {
       _showErrorSnackbar('registration_failed'.tr + ': $e');
     } finally {
+      print('not here');
       isLoading.value = false;
     }
   }

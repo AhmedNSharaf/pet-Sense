@@ -32,68 +32,69 @@ class RegisterScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Obx(() => controller.isLoading.value
-          ? const Center(
-              child: CircularProgressIndicator(
-                color: Color(0xff01727A),
-              ),
-            )
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Logo
-                    Center(
-                      child: Image.asset(
-                        "assets/Frame 361.png",
-                        fit: BoxFit.cover,
-                        width: 150,
-                        height: 150,
+      body: Obx(
+        () => controller.isLoading.value
+            ? const Center(
+                child: CircularProgressIndicator(color: Color(0xff01727A)),
+              )
+            : SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Logo
+                      Center(
+                        child: Image.asset(
+                          "assets/Frame 361.png",
+                          fit: BoxFit.cover,
+                          width: 150,
+                          height: 150,
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // User Type Selection
-                    _buildUserTypeSelection(controller),
+                      // User Type Selection
+                      _buildUserTypeSelection(controller),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // Basic Information Section
-                    _buildBasicInfoSection(controller),
+                      // Basic Information Section
+                      _buildBasicInfoSection(controller),
 
-                    // Doctor-specific fields (shown only for doctors)
-                    Obx(() => controller.shouldShowDoctorFields
-                        ? Column(
-                            children: [
-                              const SizedBox(height: 20),
-                              _buildDoctorInfoSection(controller),
-                            ],
-                          )
-                        : const SizedBox()),
+                      // Doctor-specific fields (shown only for doctors)
+                      Obx(
+                        () => controller.shouldShowDoctorFields
+                            ? Column(
+                                children: [
+                                  const SizedBox(height: 20),
+                                  _buildDoctorInfoSection(controller),
+                                ],
+                              )
+                            : const SizedBox(),
+                      ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // Terms and Conditions
-                    _buildTermsAndConditions(controller),
+                      // Terms and Conditions
+                      _buildTermsAndConditions(controller),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // Register Button
-                    _buildRegisterButton(controller),
+                      // Register Button
+                      _buildRegisterButton(controller),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // Login Link
-                    _buildLoginLink(controller),
+                      // Login Link
+                      _buildLoginLink(controller),
 
-                    const SizedBox(height: 30),
-                  ],
+                      const SizedBox(height: 30),
+                    ],
+                  ),
                 ),
               ),
-            ),
       ),
     );
   }
@@ -131,7 +132,7 @@ class RegisterScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 2.2,
+                childAspectRatio: 1.8,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
@@ -152,7 +153,9 @@ class RegisterScreen extends StatelessWidget {
                           color: controller.selectedUserType.value == userType
                               ? const Color(0xff01727A)
                               : Colors.grey.shade300,
-                          width: controller.selectedUserType.value == userType ? 2 : 1,
+                          width: controller.selectedUserType.value == userType
+                              ? 2
+                              : 1,
                         ),
                       ),
                       child: Padding(
@@ -163,7 +166,8 @@ class RegisterScreen extends StatelessWidget {
                             Icon(
                               userType.icon,
                               size: 24,
-                              color: controller.selectedUserType.value == userType
+                              color:
+                                  controller.selectedUserType.value == userType
                                   ? const Color(0xff01727A)
                                   : Colors.grey.shade600,
                             ),
@@ -175,10 +179,14 @@ class RegisterScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 12,
-                                fontWeight: controller.selectedUserType.value == userType
+                                fontWeight:
+                                    controller.selectedUserType.value ==
+                                        userType
                                     ? FontWeight.bold
                                     : FontWeight.normal,
-                                color: controller.selectedUserType.value == userType
+                                color:
+                                    controller.selectedUserType.value ==
+                                        userType
                                     ? const Color(0xff01727A)
                                     : Colors.grey.shade700,
                                 fontFamily: GoogleFonts.cairo().fontFamily,
@@ -409,7 +417,9 @@ class RegisterScreen extends StatelessWidget {
           runSpacing: 8,
           children: controller.availableSpecializations.map((specialization) {
             return Obx(() {
-              final isSelected = controller.selectedSpecializations.contains(specialization);
+              final isSelected = controller.selectedSpecializations.contains(
+                specialization,
+              );
               return FilterChip(
                 label: Text(
                   specialization,
@@ -419,7 +429,8 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ),
                 selected: isSelected,
-                onSelected: (selected) => controller.toggleSpecialization(specialization),
+                onSelected: (selected) =>
+                    controller.toggleSpecialization(specialization),
                 backgroundColor: Colors.grey.shade100,
                 selectedColor: const Color(0xff01727A),
                 checkmarkColor: Colors.white,
@@ -477,7 +488,10 @@ class RegisterScreen extends StatelessWidget {
         ),
         filled: true,
         fillColor: Colors.grey.shade50,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
       ),
     );
   }

@@ -1,14 +1,9 @@
-// pubspec.yaml dependencies needed:
-// dependencies:
-//   flutter:
-//     sdk: flutter
-//   get: ^4.6.6
-//   google_fonts: ^6.1.0
-
+// login_screen.dart
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_sense/app/view/app/modules/screens/auth/forget_password_screen.dart';
+import 'package:pet_sense/app/view/app/modules/screens/auth/login_controller.dart';
 import 'package:pet_sense/app/view/app/modules/screens/auth/register_screen.dart';
 
 // Model
@@ -24,104 +19,16 @@ class AuthModel {
   });
 }
 
-// Controller
-
-class LoginController extends GetxController {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  var isPasswordVisible = false.obs;
-  var rememberMe = false.obs;
-
-  void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
-  }
-
-  void toggleRememberMe() {
-    rememberMe.value = !rememberMe.value;
-  }
-
-  void forgotPassword() {
-    // Get.snackbar(
-    //   "نسيت كلمة المرور",
-    //   "تم إرسال رابط إعادة تعيين كلمة المرور",
-    //   snackPosition: SnackPosition.BOTTOM,
-    // );
-    Get.to(() => ForgetPassword());
-  }
-
-  void login() {
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      Get.snackbar(
-        "خطأ",
-        "يرجى ملء جميع الحقول",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.shade100,
-      );
-      return;
-    }
-
-    Get.snackbar(
-      "تسجيل الدخول",
-      "تم تسجيل الدخول بنجاح",
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green.shade100,
-    );
-  }
-
-  void createAccount() {
-    // Get.snackbar(
-    //   "إنشاء حساب",
-    //   "الانتقال إلى صفحة إنشاء حساب",
-    //   snackPosition: SnackPosition.BOTTOM,
-    // );
-    Get.to(RegisterScreen());
-  }
-
-  void loginWithFacebook() {
-    Get.snackbar(
-      "Facebook",
-      "تسجيل الدخول بواسطة Facebook",
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  }
-
-  void loginWithGoogle() {
-    Get.snackbar(
-      "Google",
-      "تسجيل الدخول بواسطة Google",
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  }
-
-  void loginWithApple() {
-    Get.snackbar(
-      "Apple",
-      "تسجيل الدخول بواسطة Apple",
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  }
-
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
-  }
-}
-
-// View
-
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Initialize the controller
     final LoginController controller = Get.put(LoginController());
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -156,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
 
-              // const Spacer(flex: 3),
+              const SizedBox(height: 32),
 
               // Email Field
               Container(
@@ -173,9 +80,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 child: TextField(
                   cursorColor: Color(0xff01727A),
-
                   controller: controller.emailController,
                   textAlign: TextAlign.right,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: 'enter_email'.tr,
                     labelStyle: TextStyle(
@@ -206,6 +113,7 @@ class LoginScreen extends StatelessWidget {
 
               const SizedBox(height: 24),
 
+              // Password Field
               Obx(
                 () => Container(
                   decoration: BoxDecoration(
@@ -299,9 +207,7 @@ class LoginScreen extends StatelessWidget {
                             value: controller.rememberMe.value,
                             onChanged: (value) => controller.toggleRememberMe(),
                             activeColor: const Color(0xff01727A),
-
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                         ),
                       ),
@@ -313,26 +219,38 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 32),
 
               // Login Button
-              SizedBox(
-                width: double.infinity,
-                height: 54,
-                child: ElevatedButton(
-                  onPressed: controller.login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff01727A),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+              Obx(
+                () => SizedBox(
+                  width: double.infinity,
+                  height: 54,
+                  child: ElevatedButton(
+                    onPressed: controller.isLoading.value ? null : controller.login,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff01727A),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      disabledBackgroundColor: Colors.grey.shade300,
                     ),
-                  ),
-                  child: Text(
-                    'login'.tr,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: GoogleFonts.cairo().fontFamily,
-                    ),
+                    child: controller.isLoading.value
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'login'.tr,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: GoogleFonts.cairo().fontFamily,
+                            ),
+                          ),
                   ),
                 ),
               ),
@@ -454,6 +372,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
+              const SizedBox(height: 32),
             ],
           ),
         ),
