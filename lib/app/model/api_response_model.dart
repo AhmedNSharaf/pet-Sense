@@ -1,37 +1,65 @@
-class ApiResponseModel<T> {
+class ApiResponse {
   final bool success;
   final String message;
-  final T? data;
-  final int statusCode;
+  final dynamic data;
+  final int? statusCode;
 
-  ApiResponseModel({
+  ApiResponse({
     required this.success,
     required this.message,
     this.data,
-    required this.statusCode,
+    this.statusCode,
   });
 
-  factory ApiResponseModel.success({
+  // Create ApiResponse from JSON (for future use)
+  factory ApiResponse.fromJson(Map<String, dynamic> json) {
+    return ApiResponse(
+      success: json['success'] ?? false,
+      message: json['message'] ?? '',
+      data: json['data'],
+      statusCode: json['statusCode'],
+    );
+  }
+
+  // Convert to JSON (for future use)
+  Map<String, dynamic> toJson() {
+    return {
+      'success': success,
+      'message': message,
+      'data': data,
+      'statusCode': statusCode,
+    };
+  }
+
+  // Success response factory
+  factory ApiResponse.success({
     required String message,
-    T? data,
-    int statusCode = 200,
+    dynamic data,
   }) {
-    return ApiResponseModel<T>(
+    return ApiResponse(
       success: true,
+      message: message,
+      data: data,
+      statusCode: 200,
+    );
+  }
+
+  // Error response factory
+  factory ApiResponse.error({
+    required String message,
+    int? statusCode,
+    dynamic data,
+  }) {
+    return ApiResponse(
+      success: false,
       message: message,
       data: data,
       statusCode: statusCode,
     );
   }
 
-  factory ApiResponseModel.error({
-    required String message,
-    int statusCode = 400,
-  }) {
-    return ApiResponseModel<T>(
-      success: false,
-      message: message,
-      statusCode: statusCode,
-    );
+  @override
+  String toString() {
+    return 'ApiResponse{success: $success, message: $message, data: $data, statusCode: $statusCode}';
   }
 }
